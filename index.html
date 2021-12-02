@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>School applications</title>
+</head>
+<body>
+    <h1>School applications</h1>
+    <div>
+        <label for="frontendProgramme">Frontend</label>
+        <input type="checkbox" name="programme" id="frontendProgramme">
+        <label for="backendProgramme">Backend</label>
+        <input type="checkbox" name="programme" id="backendProgramme">
+        <label for="netProgramme">.NET</label>
+        <input type="checkbox" name="programme" id="netProgramme">
+    </div>
+    <label for="sortContainer">Sort by: </label>
+    <select name="" id="sortContainer">
+        <option value="" selected disabled hidden></option>
+        <option value="age">Age</option>
+        <option value="firstName">First name</option>
+        <option value="lastName">Last name</option>
+    </select>
+    <div>
+    <button id="filterBtn">Filter</button>
+</div>
+    <ul id="nameList"></ul>
+    <div id="schoolContainer"></div>
+    <script src="main.js"></script>
+</body>
+</html>
