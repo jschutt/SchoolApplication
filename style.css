@@ -1,3 +1,15 @@
 body {
     font-family: sans-serif;
 }
+
+.twoMatchSchool {
+    color: rgb(92, 199, 92);
+}
+
+.oneMatchSchool {
+    color: orange;
+}
+
+.noMatchSchool {
+    color: red;
+}
