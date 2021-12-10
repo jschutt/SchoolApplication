@@ -1,13 +1,20 @@
 let nameList = document.querySelector("#nameList");
 let schoolContainer = document.querySelector("#schoolContainer");
+let filterContainer = document.querySelector("#filterContainer");
+let topBotContainer = document.querySelector("#topBotContainer");
 schoolContainer.style.border = "1px solid black";
 
 //Filter options
 let frontend = document.querySelector("#frontendProgramme");
 let backend = document.querySelector("#backendProgramme");
 let net = document.querySelector("#netProgramme");
-
 let filterBtn = document.querySelector("#filterBtn");
+
+//Search options
+let searchBtn = document.querySelector("#searchBtn");
+
+//Used to check which sort order it is (for example: if age is sorted oldest to youngest)
+let sortState = true;
 
 //Function that appends the school names from an array
 let schoolNameFunc = (schoolName, classProperty) => {
@@ -28,10 +35,11 @@ let renderNames = (students, schools) => {
     let showInfo = document.createElement("button");
     showInfo.textContent = "Show";
     fullName.style.display = "block";
+
+    //Filter options
     if (frontend.checked && name.programme === "Frontend") {
       fullName.textContent = `${name.firstName} ${name.lastName}, frontend`;
       nameList.appendChild(fullName);
-      console.log(fullName);
     } else if (backend.checked && name.programme === "Backend") {
       fullName.textContent = `${name.firstName} ${name.lastName}, backend`;
       nameList.appendChild(fullName);
@@ -43,6 +51,7 @@ let renderNames = (students, schools) => {
       nameList.appendChild(fullName);
     }
 
+    //Show what school best suits the student
     showInfo.addEventListener("click", () => {
       schoolContainer.innerHTML = "";
       let twoMatch = [];
@@ -114,68 +123,92 @@ let renderNames = (students, schools) => {
       schoolNameFunc(oneMatchSchool, "oneMatchSchool");
 
       schoolNameFunc(noMatchSchool, "noMatchSchool");
-
     });
     fullName.appendChild(showInfo);
   });
+  //End of student loop
 };
+
+//Search function
+// let checkInput = (arr, input) => {
+//   arr.includes(input);
+//   console.log("Function!")
+// };
 
 //Function to sort by age
 let sortAge = (arr) => {
-  arr.sort(function (youngest, oldest) {
-    return youngest.age - oldest.age;
-  });
+  if (sortState === true) {
+    sortState = false;
+    arr.sort(function (youngest, oldest) {
+      return youngest.age - oldest.age;
+    });
+  } else if (sortState === false) {
+    sortState = true;
+    arr.sort(function (youngest, oldest) {
+      return oldest.age - youngest.age;
+    });
+  }
 };
 
 //Function to sort by first name (alphabetic order)
 let sortFirstName = (arr) => {
-  arr.sort(function (a, b) {
-    let nameA = a.firstName.toLowerCase();
-    let nameB = b.firstName.toLowerCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
+  if (sortState === true) {
+    sortState = false;
+    arr.sort(function (a, b) {
+      let nameA = a.firstName.toLowerCase();
+      let nameB = b.firstName.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+  } else if (sortState === false) {
+    sortState = true;
+    arr.sort(function (a, b) {
+      let nameA = a.firstName.toLowerCase();
+      let nameB = b.firstName.toLowerCase();
+      if (nameA > nameB) {
+        return -1;
+      }
+      if (nameA < nameB) {
+        return 1;
+      }
+      return 0;
+    });
+  }
 };
 //Sort by last name (alphabetic order)
 let sortLastName = (arr) => {
-  arr.sort(function (a, b) {
-    let nameA = a.lastName.toLowerCase();
-    let nameB = b.lastName.toLowerCase();
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
-};
-
-//Function to compare a student's preferred programme and activities -
-//with a school's programme/activities.
-let compareFunc = (student, school, programme, activity) => {};
-
-let compare = (students, schools) => {
-  //let matchingSchool = students.filter((student) => student.hobbies === schools.activities)
-  let result1 = students.filter(function (obj) {
-    return !schools.some(function (obj2) {
-      return obj.value === obj2.value;
+  if (sortState === true) {
+    sortState = false;
+    arr.sort(function (a, b) {
+      let nameA = a.lastName.toLowerCase();
+      let nameB = b.lastName.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
     });
-  });
-
-  let result2 = schools.filter(function (obj) {
-    return !students.some(function (obj2) {
-      return obj.value === obj2.value;
+  } else if (sortState === false) {
+    sortState = true;
+    arr.sort(function (a, b) {
+      let nameA = a.lastName.toLowerCase();
+      let nameB = b.lastName.toLowerCase();
+      if (nameA > nameB) {
+        return -1;
+      }
+      if (nameA < nameB) {
+        return 1;
+      }
+      return 0;
     });
-  });
-
-  let finalResult = result1.concat(result2);
-  console.log(finalResult);
+  }
 };
 
 //Function to fetch data
@@ -192,22 +225,88 @@ async function renderData() {
   //Append names of the students in a list
   renderNames(studentData, schoolData);
 
-  //Filter and append list based on filter options
+  //Search functionality
+  searchBtn.addEventListener("click", () => {
+    let searchInput = document.querySelector("#searchInput").value;
+
+    studentData.forEach((value)=> {
+      
+    })
+
+    // let input = studentData.find(
+    //   (val) =>
+    //     val.firstName === searchInput ||
+    //     val.lastName === searchInput ||
+    //     val.hobbies === searchInput
+    // );
+
+    //input.toLowerCase() === searchInput.toLowerCase()
+    // if(){
+    //   console.log("Found name!!")
+    // } else {
+    //   console.log("Not found")
+    // }
+
+    //console.log(input)
+
+    // studentData.forEach((input)=> {
+    //   if(searchInput.includes(input)){
+    //     console.log("Found input!")
+
+    //   } else {
+    //     console.log("Not found lmao")
+    //     console.log(searchInput)
+    //   }
+    // })
+
+    // if(studentData.includes(searchInput.value)){
+    //   schoolContainer.append(searchInput.value);
+    //   console.log("Searched!")
+    // }
+  });
+
+  //Filter and append list based on filter/sort options
   filterBtn.addEventListener("click", () => {
     nameList.innerHTML = "";
+    topBotContainer.innerHTML = "";
     let sortBy = document.querySelector("#sortContainer option:checked");
+    let topBotBtn = document.createElement("button");
+    topBotBtn.textContent = "^";
+    sortState = true;
+
     if (sortBy.value === "age") {
       sortAge(studentData);
-      renderNames(studentData);
+      renderNames(studentData, schoolData);
+      topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "firstName") {
       sortFirstName(studentData);
-      renderNames(studentData);
+      renderNames(studentData, schoolData);
+      topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "lastName") {
       sortLastName(studentData);
-      renderNames(studentData);
+      renderNames(studentData, schoolData);
+      topBotContainer.append(topBotBtn);
     } else {
-      renderNames(studentData);
+      renderNames(studentData, schoolData);
     }
+
+    topBotBtn.addEventListener("click", () => {
+      console.log("YOU CLICKED ME");
+      nameList.innerHTML = "";
+
+      if (sortBy.value === "age") {
+        sortAge(studentData);
+        renderNames(studentData, schoolData);
+      } else if (sortBy.value === "firstName") {
+        sortFirstName(studentData);
+        renderNames(studentData, schoolData);
+      } else if (sortBy.value === "lastName") {
+        sortLastName(studentData);
+        renderNames(studentData, schoolData);
+      } else {
+        renderNames(studentData, schoolData);
+      }
+    });
   });
 
   //   let resultList = [];

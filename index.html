@@ -10,6 +10,12 @@
 <body>
     <h1>School applications</h1>
     <div>
+        <label for="searchInput">Search for a student: </label>
+        <input type="search" name="seachInput" id="searchInput" placeholder="Name, programme, hobby...">
+        <button id="searchBtn">Search</button>
+    </div>
+
+    <div>
         <label for="frontendProgramme">Frontend</label>
         <input type="checkbox" name="programme" id="frontendProgramme">
         <label for="backendProgramme">Backend</label>
@@ -24,9 +30,10 @@
         <option value="firstName">First name</option>
         <option value="lastName">Last name</option>
     </select>
-    <div>
+    <div id="filterContainer">
     <button id="filterBtn">Filter</button>
 </div>
+<div id="topBotContainer"></div>
     <ul id="nameList"></ul>
     <div id="schoolContainer"></div>
     <script src="main.js"></script>
