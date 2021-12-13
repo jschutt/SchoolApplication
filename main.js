@@ -1,3 +1,10 @@
+//Function to fetch data
+let getData = async (URL) => {
+  let response = await fetch(URL);
+  let data = await response.json();
+  return data;
+};
+
 let nameList = document.querySelector("#nameList");
 let schoolContainer = document.querySelector("#schoolContainer");
 let filterContainer = document.querySelector("#filterContainer");
@@ -10,10 +17,9 @@ let backend = document.querySelector("#backendProgramme");
 let net = document.querySelector("#netProgramme");
 let filterBtn = document.querySelector("#filterBtn");
 
-//Search options
 let searchBtn = document.querySelector("#searchBtn");
 
-//Used to check which sort order it is (for example: if age is sorted oldest to youngest)
+//Used to check which sort order it is (if age is sorted oldest to youngest etc.)
 let sortState = true;
 
 //Function that appends the school names from an array
@@ -88,7 +94,7 @@ let renderNames = (students, schools) => {
       console.log(noMatch);
       console.log("^^^^^^^^");
 
-      //Remove duplicates
+      //Remove duplicates from array
       let twoMatchSchool = twoMatch.reduce(function (a, b) {
         if (a.indexOf(b) < 0) a.push(b);
         return a;
@@ -125,6 +131,7 @@ let renderNames = (students, schools) => {
       schoolNameFunc(oneMatchSchool, "oneMatchSchool");
 
       schoolNameFunc(noMatchSchool, "noMatchSchool");
+
     });
     fullName.appendChild(showInfo);
   });
@@ -208,13 +215,6 @@ let sortLastName = (arr) => {
   }
 };
 
-//Function to fetch data
-let getData = async (URL) => {
-  let response = await fetch(URL);
-  let data = await response.json();
-  return data;
-};
-
 async function renderData() {
   let studentData = await getData("https://api.mocki.io/v2/01047e91/students");
   let schoolData = await getData("https://api.mocki.io/v2/01047e91/schools");
@@ -222,6 +222,7 @@ async function renderData() {
   //Append names of the students in a list
   renderNames(studentData, schoolData);
 
+  //Array used to temporary store objects based on search value
   let searchMatch = [];
 
   //Search functionality
@@ -296,6 +297,8 @@ async function renderData() {
       sortLastName(studentData);
       renderNames(studentData, schoolData);
       topBotContainer.append(topBotBtn);
+    } else if(sortBy.disabled === true && searchMatch.length > 0) {
+      renderNames(searchMatch, schoolData);
     } else {
       renderNames(studentData, schoolData);
     }
@@ -329,26 +332,13 @@ async function renderData() {
         sortLastName(studentData);
         renderNames(studentData, schoolData);
         topBotContainer.append(topBotBtn);
+      } else if(sortBy.disabled === true && searchMatch.length > 0) {
+        renderNames(searchMatch, schoolData);
       } else {
         renderNames(studentData, schoolData);
       }
     });
   });
-
-  //   let resultList = [];
-
-  //   studentData.forEach((foodOne) => {
-  //     if (schoolData.includes(foodOne)) {
-  //       resultList.push(foodOne);
-  //     }
-  //   });
-
-  //   if (resultList.length === 0) {
-  //     console.log("There are no similar foods");
-  //     console.log(resultList)
-  //   } else {
-  //     console.log("Similar foods", resultList);
-  //   }
 
   // let targetName = (event) => {
   //     let nameTarget = event.target;

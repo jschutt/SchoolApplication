@@ -1,3 +1,10 @@
+//Function to fetch data
+let getData = async (URL) => {
+  let response = await fetch(URL);
+  let data = await response.json();
+  return data;
+};
+
 let nameList = document.querySelector("#nameList");
 let schoolContainer = document.querySelector("#schoolContainer");
 let filterContainer = document.querySelector("#filterContainer");
@@ -10,10 +17,9 @@ let backend = document.querySelector("#backendProgramme");
 let net = document.querySelector("#netProgramme");
 let filterBtn = document.querySelector("#filterBtn");
 
-//Search options
 let searchBtn = document.querySelector("#searchBtn");
 
-//Used to check which sort order it is (for example: if age is sorted oldest to youngest)
+//Used to check which sort order it is (if age is sorted oldest to youngest etc.)
 let sortState = true;
 
 //Function that appends the school names from an array
@@ -31,15 +37,27 @@ let renderNames = (students, schools) => {
   students.forEach((name) => {
     let myHobby = name.hobbies;
     let myProgramme = name.programme;
-    let fullName = document.createElement("li");
-    let showInfo = document.createElement("button");
-    showInfo.textContent = "Show";
+    let fullName = document.createElement("button");
     fullName.style.display = "block";
+    fullName.className = "studentBtn";
+    let infoCard = document.createElement("div");
+    infoCard.className = "infoCard";
+    infoCard.innerHTML = `Age: ${name.age}<br>Hobbies: ${name.hobbies}<br>Programme: ${name.programme}`
+    infoCard.style.display = "none";
+    let showInfo = document.createElement("button");
+    showInfo.style.display = "block";
+    showInfo.textContent = "Show";
+    schoolContainer.style.display = "none";
+
+    let infoShowing = true;
+    let schoolShowing = true;
+
 
     //Filter options
     if (frontend.checked && name.programme === "Frontend") {
       fullName.textContent = `${name.firstName} ${name.lastName}, frontend`;
       nameList.appendChild(fullName);
+      nameList.appendChild(infoCard);
     } else if (backend.checked && name.programme === "Backend") {
       fullName.textContent = `${name.firstName} ${name.lastName}, backend`;
       nameList.appendChild(fullName);
@@ -49,10 +67,30 @@ let renderNames = (students, schools) => {
     } else if (!frontend.checked && !backend.checked && !net.checked) {
       fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
+      nameList.appendChild(infoCard);
     }
+
+    fullName.addEventListener("click",() => {
+      if(infoShowing === true){
+        infoCard.style.display = "block";
+        infoShowing = false;
+      } else if (infoShowing === false){
+        infoCard.style.display = "none";
+        infoShowing = true;
+      }
+
+    })
 
     //Show which school best suits the student
     showInfo.addEventListener("click", () => {
+      if(schoolShowing === true) {
+        schoolContainer.style.display = "block";
+        schoolShowing = false;
+      } else if(schoolShowing === false){
+        schoolContainer.style.display = "none";
+        schoolShowing = true;
+      }
+
       schoolContainer.innerHTML = "";
       let twoMatch = [];
       let oneMatch = [];
@@ -88,7 +126,7 @@ let renderNames = (students, schools) => {
       console.log(noMatch);
       console.log("^^^^^^^^");
 
-      //Remove duplicates
+      //Remove duplicates from array
       let twoMatchSchool = twoMatch.reduce(function (a, b) {
         if (a.indexOf(b) < 0) a.push(b);
         return a;
@@ -125,8 +163,9 @@ let renderNames = (students, schools) => {
       schoolNameFunc(oneMatchSchool, "oneMatchSchool");
 
       schoolNameFunc(noMatchSchool, "noMatchSchool");
+
     });
-    fullName.appendChild(showInfo);
+    infoCard.appendChild(showInfo);
   });
   //End of student loop
 };
@@ -208,13 +247,6 @@ let sortLastName = (arr) => {
   }
 };
 
-//Function to fetch data
-let getData = async (URL) => {
-  let response = await fetch(URL);
-  let data = await response.json();
-  return data;
-};
-
 async function renderData() {
   let studentData = await getData("https://api.mocki.io/v2/01047e91/students");
   let schoolData = await getData("https://api.mocki.io/v2/01047e91/schools");
@@ -222,6 +254,7 @@ async function renderData() {
   //Append names of the students in a list
   renderNames(studentData, schoolData);
 
+  //Array used to temporary store objects based on search value
   let searchMatch = [];
 
   //Search functionality
@@ -296,6 +329,8 @@ async function renderData() {
       sortLastName(studentData);
       renderNames(studentData, schoolData);
       topBotContainer.append(topBotBtn);
+    } else if(sortBy.value === "default" && searchMatch.length > 0) {
+      renderNames(searchMatch, schoolData);
     } else {
       renderNames(studentData, schoolData);
     }
@@ -329,26 +364,13 @@ async function renderData() {
         sortLastName(studentData);
         renderNames(studentData, schoolData);
         topBotContainer.append(topBotBtn);
+      } else if(sortBy.value === "default" && searchMatch.length > 0) {
+        renderNames(searchMatch, schoolData);
       } else {
         renderNames(studentData, schoolData);
       }
     });
   });
-
-  //   let resultList = [];
-
-  //   studentData.forEach((foodOne) => {
-  //     if (schoolData.includes(foodOne)) {
-  //       resultList.push(foodOne);
-  //     }
-  //   });
-
-  //   if (resultList.length === 0) {
-  //     console.log("There are no similar foods");
-  //     console.log(resultList)
-  //   } else {
-  //     console.log("Similar foods", resultList);
-  //   }
 
   // let targetName = (event) => {
   //     let nameTarget = event.target;

@@ -1,5 +1,36 @@
 body {
-    font-family: sans-serif;
+    font-family: Calibri;
+    background-color: rgb(238, 238, 238);
+    color: rgb(39, 39, 39);
+    width: 75%;
+    margin: auto;
+}
+.bgColor {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.studentBtn {
+    font-family: Calibri;
+    font-size: 16px;
+    
+    background-color: white;
+    color: rgb(39, 39, 39);
+    text-decoration: none;
+    border: 1px solid grey;
+    border-radius: 20px;
+    padding: 8px 25px;
+    margin: 5px 0px 5px 0px;
+    cursor: pointer;
+}
+
+.nameList {
+    padding: 0;
+}
+
+.schoolContainer {
+   
 }
 
 .twoMatchSchool {

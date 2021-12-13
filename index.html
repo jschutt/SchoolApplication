@@ -8,6 +8,7 @@
     <title>School applications</title>
 </head>
 <body>
+    <div class="bgColor">
     <h1>School applications</h1>
     <div>
         <label for="searchInput">Search for a student: </label>
@@ -25,7 +26,7 @@
     </div>
     <label for="sortContainer">Sort by: </label>
     <select name="" id="sortContainer">
-        <option value="" selected disabled hidden></option>
+        <option value="default" selected>Default</option>
         <option value="age">Age</option>
         <option value="firstName">First name</option>
         <option value="lastName">Last name</option>
@@ -34,8 +35,9 @@
     <button id="filterBtn">Filter</button>
 </div>
 <div id="topBotContainer"></div>
-    <ul id="nameList"></ul>
-    <div id="schoolContainer"></div>
+    <ul id="nameList" class="nameList"></ul>
+    <div id="schoolContainer" class="schoolContainer" display hidden></div>
     <script src="main2.js"></script>
+</div>
 </body>
 </html>
