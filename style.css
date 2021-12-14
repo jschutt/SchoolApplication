@@ -37,7 +37,7 @@ body {
 .searchBtn {
     font-family: Calibri;
     font-size: 16px;
-    background-color: rgb(89, 150, 185);
+    background-color: #5996B9;
     color: white;
     text-decoration: none;
     border: none;
@@ -62,7 +62,7 @@ body {
 .filterBtn {
     font-family: Calibri;
     font-size: 16px;
-    background-color: rgb(89, 150, 185);
+    background-color: #5996B9;
     color: white;
     text-decoration: none;
     border: none;
@@ -88,7 +88,7 @@ body {
     background-color: white;
     color: rgb(89, 150, 185);
     text-decoration: none;
-    border: 1px solid rgb(89, 150, 185);
+    border: 1px solid #5996B9;
     border-radius: 5px;
     padding: 0px 30px;
     margin: 0;
@@ -99,26 +99,34 @@ body {
     display: grid;
     grid-template-areas:
     'studentTitle schoolTitle'
-    'schoolInfoTag schoolInfoTag';
-    margin: 16px 0px;
+    'studentInfoTag schoolInfoTag';
+    margin-top: 32px;
+    margin-bottom: 16px;
 }
 
 .studentListTitle {
     grid-area: studentTitle;
+    text-align: left;
     margin: 0;
 }
 
 .schoolListTitle {
     grid-area: schoolTitle;
+    text-align: center;
     margin: 0;
-    text-align: right;
+    padding-left: 104px;
 }
 
 .infoTag {
     grid-area: schoolInfoTag;
     text-align: right;
-    width: 50%;
     font-size: 12px;
+    margin: 0;
+    padding-right: 30px;
+}
+
+.studentInfoTag {
+    grid-area: studentInfoTag;
     margin: 0;
 }
 
@@ -130,9 +138,8 @@ body {
 .studentBtn {
   font-family: Calibri;
   font-size: 16px;
-
   background-color: white;
-  color: rgb(39, 39, 39);
+  color: #272727;
   text-decoration: none;
   border: 1px solid grey;
   border-radius: 5px;
@@ -140,6 +147,19 @@ body {
   margin: 5px 0px 5px 0px;
   cursor: pointer;
 }
+
+.studentBtnToggled {
+    font-family: Calibri;
+    font-size: 16px;
+    background-color: #5996B9;
+    color: white;
+    text-decoration: none;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin: 5px 0px 5px 0px;
+    cursor: pointer;
+  }
 
 .studentBtn:hover {
     background-color: rgb(234, 247, 255);

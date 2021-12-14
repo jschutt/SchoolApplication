@@ -39,19 +39,24 @@ let renderNames = (students, schools) => {
     let fullName = document.createElement("button");
     fullName.style.display = "block";
     fullName.className = "studentBtn";
+
+    //Student information that will be appended when clicking their name
     let infoCard = document.createElement("div");
     infoCard.className = "infoCard";
-    infoCard.innerHTML = `Age: ${name.age}<br>Hobbies: ${name.hobbies}<br>Programme: ${name.programme}`
+    infoCard.innerHTML = `Age: ${name.age}<br>Hobbies: ${name.hobbies}<br>Programme: ${name.programme}`;
     infoCard.style.display = "none";
+
+    //Used for school information
     let showInfo = document.createElement("button");
     showInfo.style.display = "block";
     showInfo.textContent = "Show schools";
     showInfo.className = "showInfoBtn";
     schoolContainer.style.display = "none";
 
+    //Used to check if student information is showing or not
     let infoShowing = true;
+    //Same here but for school information
     let schoolShowing = true;
-
 
     //Filter options
     if (frontend.checked && name.programme === "Frontend") {
@@ -61,32 +66,36 @@ let renderNames = (students, schools) => {
     } else if (backend.checked && name.programme === "Backend") {
       fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
+      nameList.appendChild(infoCard);
     } else if (net.checked && name.programme === ".NET") {
       fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
+      nameList.appendChild(infoCard);
     } else if (!frontend.checked && !backend.checked && !net.checked) {
       fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
       nameList.appendChild(infoCard);
     }
 
-    fullName.addEventListener("click",() => {
-      if(infoShowing === true){
+    //Functionality for student name buttons
+    fullName.addEventListener("click", () => {
+      if (infoShowing === true) {
+        fullName.className = "studentBtnToggled";
         infoCard.style.display = "block";
         infoShowing = false;
-      } else if (infoShowing === false){
+      } else if (infoShowing === false) {
+        fullName.className = "studentBtn";
         infoCard.style.display = "none";
         infoShowing = true;
       }
-
-    })
+    });
 
     //Show which school best suits the student
     showInfo.addEventListener("click", () => {
-      if(schoolShowing === true) {
+      if (schoolShowing === true) {
         schoolContainer.style.display = "block";
         schoolShowing = false;
-      } else if(schoolShowing === false){
+      } else if (schoolShowing === false) {
         schoolContainer.style.display = "none";
         schoolShowing = true;
       }
@@ -96,48 +105,39 @@ let renderNames = (students, schools) => {
       let oneMatch = [];
       let noMatch = [];
 
+      //Loop through each school and add the name to the appropiate array (the ones above)
       schools.forEach((school) => {
         let schoolActivity = school.activities;
         let schoolProgramme = school.programmes;
         if (schoolProgramme.length === 0) {
           noMatch.push(school.name);
-          console.log("WORKS HERE");
         } else {
           schoolProgramme.forEach((match) => {
             if (myProgramme.includes(match)) {
-              //console.log("PROGRAMME MATCH");
               myHobby.forEach((match2) => {
                 if (schoolActivity.includes(match2)) {
-                  //console.log("HOBBY MATCH");
                   twoMatch.push(school.name);
                 } else {
                   oneMatch.push(school.name);
                 }
               });
             } else if (!myProgramme.includes(match)) {
-              console.log(match);
               noMatch.push(school.name);
-              console.log(noMatch);
             }
           });
         }
       });
-
-      console.log(noMatch);
-      console.log("^^^^^^^^");
 
       //Remove duplicates from array
       let twoMatchSchool = twoMatch.reduce(function (a, b) {
         if (a.indexOf(b) < 0) a.push(b);
         return a;
       }, []);
-      console.log(twoMatchSchool);
 
       let oneMatchSchool = oneMatch.reduce(function (a, b) {
         if (a.indexOf(b) < 0) a.push(b);
         return a;
       }, []);
-      console.log(oneMatchSchool);
 
       let noMatchSchool = noMatch.reduce(function (a, b) {
         if (a.indexOf(b) < 0) a.push(b);
@@ -148,22 +148,21 @@ let renderNames = (students, schools) => {
       oneMatchSchool = oneMatchSchool.filter(
         (val) => !twoMatchSchool.includes(val)
       );
-      console.log(oneMatchSchool);
+
       noMatchSchool = noMatchSchool.filter(
         (val) => !twoMatchSchool.includes(val)
       );
+
       noMatchSchool = noMatchSchool.filter(
         (val) => !oneMatchSchool.includes(val)
       );
-      console.log(noMatchSchool);
-      console.log("^^^^2222^^^^");
 
+      //Function to append school names, second argument is assignment of class names
       schoolNameFunc(twoMatchSchool, "twoMatchSchool");
 
       schoolNameFunc(oneMatchSchool, "oneMatchSchool");
 
       schoolNameFunc(noMatchSchool, "noMatchSchool");
-
     });
     infoCard.appendChild(showInfo);
   });
@@ -174,7 +173,7 @@ let renderNames = (students, schools) => {
 let sortAge = (arr, btn) => {
   if (sortState === true) {
     sortState = false;
-    btn.textContent = "▲" 
+    btn.textContent = "▲";
     arr.sort(function (youngest, oldest) {
       return youngest.age - oldest.age;
     });
@@ -223,7 +222,7 @@ let sortFirstName = (arr, btn) => {
 //Sort by last name (alphabetic order)
 let sortLastName = (arr, btn) => {
   if (sortState === true) {
-    btn.textContent = "▲"
+    btn.textContent = "▲";
     sortState = false;
     arr.sort(function (a, b) {
       let nameA = a.lastName.toLowerCase();
@@ -238,7 +237,7 @@ let sortLastName = (arr, btn) => {
     });
   } else if (sortState === false) {
     sortState = true;
-    btn.textContent = "▼"
+    btn.textContent = "▼";
     arr.sort(function (a, b) {
       let nameA = a.lastName.toLowerCase();
       let nameB = b.lastName.toLowerCase();
@@ -260,7 +259,7 @@ async function renderData() {
   //Append names of the students in a list
   renderNames(studentData, schoolData);
 
-  //Array used to temporary store objects based on search value
+  //Array used to temporarily store objects based on search value
   let searchMatch = [];
 
   //Search functionality
@@ -296,8 +295,6 @@ async function renderData() {
     } else if (searchMatch.length === 0) {
       nameList.append(notFound);
     }
-
-    console.log(searchMatch);
   });
 
   //Filter and append list based on filter/sort options
@@ -305,14 +302,11 @@ async function renderData() {
     nameList.innerHTML = "";
     topBotContainer.innerHTML = "";
     let sortBy = document.querySelector("#sortContainer option:checked");
-    let searchInput = document.querySelector("#searchInput").value;
     let topBotBtn = document.createElement("button");
-    topBotBtn.textContent = "y to old";
     topBotBtn.className = "topBotBtn";
     sortState = true;
 
     if (sortBy.value === "age" && searchMatch.length > 0) {
-      console.log("WORKS!!!!");
       sortAge(searchMatch, topBotBtn);
       renderNames(searchMatch, schoolData);
       topBotContainer.append(topBotBtn);
@@ -336,18 +330,16 @@ async function renderData() {
       sortLastName(studentData, topBotBtn);
       renderNames(studentData, schoolData);
       topBotContainer.append(topBotBtn);
-    } else if(sortBy.value === "default" && searchMatch.length > 0) {
+    } else if (sortBy.value === "default" && searchMatch.length > 0) {
       renderNames(searchMatch, schoolData);
     } else {
       renderNames(studentData, schoolData);
     }
 
     topBotBtn.addEventListener("click", () => {
-      console.log("YOU CLICKED ME");
       nameList.innerHTML = "";
 
       if (sortBy.value === "age" && searchMatch.length > 0) {
-        console.log("WORKS!!!!");
         sortAge(searchMatch, topBotBtn);
         renderNames(searchMatch, schoolData);
         topBotContainer.append(topBotBtn);
@@ -371,7 +363,7 @@ async function renderData() {
         sortLastName(studentData, topBotBtn);
         renderNames(studentData, schoolData);
         topBotContainer.append(topBotBtn);
-      } else if(sortBy.value === "default" && searchMatch.length > 0) {
+      } else if (sortBy.value === "default" && searchMatch.length > 0) {
         renderNames(searchMatch, schoolData);
       } else {
         renderNames(studentData, schoolData);
