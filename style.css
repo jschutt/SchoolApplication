@@ -1,46 +1,199 @@
 body {
-    font-family: Calibri;
-    background-color: rgb(238, 238, 238);
-    color: rgb(39, 39, 39);
-    width: 75%;
-    margin: auto;
+  font-family: Calibri;
+  background-color: rgb(238, 238, 238);
+  color: rgb(39, 39, 39);
+  width: 75%;
+  margin: auto;
 }
+
 .bgColor {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.searchContainer {
+    margin: 8px 0px;
+}
+
+.searchContainer > label {
+
+}
+
+.searchInput {
+    width: 190px;
+    height: 23px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 3px;
+    padding-left: 5px;
+}
+
+.searchInput:focus {
+    border: 2px solid rgb(89, 150, 185);;
+    outline: none;
+}
+
+.searchBtn {
+    font-family: Calibri;
+    font-size: 16px;
+    background-color: rgb(89, 150, 185);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 15px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.searchBtn:hover {
+    background-color: rgb(114, 181, 219);
+}
+
+.programmeFilterContainer {
+    margin: 4px 0px;
+}
+
+.filterContainer {
+    margin: 8px 0px 8px 0px;
+}
+
+.filterBtn {
+    font-family: Calibri;
+    font-size: 16px;
+    background-color: rgb(89, 150, 185);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 15px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.filterBtn:hover {
+    background-color: rgb(114, 181, 219);
+}
+
+.topBotContainer {
+    width: 100%;
+    padding: 8px;
+    padding-left: 0px;
+}
+
+.topBotBtn {
+    font-family: Calibri;
+    font-size: 16px;
     background-color: white;
-    border-radius: 10px;
-    padding: 30px;
+    color: rgb(89, 150, 185);
+    text-decoration: none;
+    border: 1px solid rgb(89, 150, 185);
+    border-radius: 5px;
+    padding: 0px 30px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.listTitles {
+    display: grid;
+    grid-template-areas:
+    'studentTitle schoolTitle'
+    'schoolInfoTag schoolInfoTag';
+    margin: 16px 0px;
+}
+
+.studentListTitle {
+    grid-area: studentTitle;
+    margin: 0;
+}
+
+.schoolListTitle {
+    grid-area: schoolTitle;
+    margin: 0;
+    text-align: right;
+}
+
+.infoTag {
+    grid-area: schoolInfoTag;
+    text-align: right;
+    width: 50%;
+    font-size: 12px;
+    margin: 0;
+}
+
+.nameSchoolContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .studentBtn {
+  font-family: Calibri;
+  font-size: 16px;
+
+  background-color: white;
+  color: rgb(39, 39, 39);
+  text-decoration: none;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 8px 15px;
+  margin: 5px 0px 5px 0px;
+  cursor: pointer;
+}
+
+.studentBtn:hover {
+    background-color: rgb(234, 247, 255);
+}
+
+.infoCard {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.nameList {
+  width: 50%;
+  margin: 0;
+  padding: 0;
+}
+
+.showInfoBtn {
     font-family: Calibri;
     font-size: 16px;
-    
     background-color: white;
     color: rgb(39, 39, 39);
     text-decoration: none;
     border: 1px solid grey;
-    border-radius: 20px;
-    padding: 8px 25px;
+    border-radius: 5px;
+    padding: 4px 8px;
     margin: 5px 0px 5px 0px;
     cursor: pointer;
 }
 
-.nameList {
-    padding: 0;
+.showInfoBtn:hover {
+    background-color: rgb(234, 247, 255);
 }
 
 .schoolContainer {
-   
+  width: 40%;
+  height: 50%;
+  margin: 5px auto 0px auto;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+.schoolContainer > p {
+    margin-left: 15px;
 }
 
 .twoMatchSchool {
-    color: rgb(92, 199, 92);
+  color: rgb(92, 199, 92);
 }
 
 .oneMatchSchool {
-    color: orange;
+  color: orange;
 }
 
 .noMatchSchool {
-    color: red;
+  color: red;
 }

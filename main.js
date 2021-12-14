@@ -9,7 +9,6 @@ let nameList = document.querySelector("#nameList");
 let schoolContainer = document.querySelector("#schoolContainer");
 let filterContainer = document.querySelector("#filterContainer");
 let topBotContainer = document.querySelector("#topBotContainer");
-schoolContainer.style.border = "1px solid black";
 
 //Filter options
 let frontend = document.querySelector("#frontendProgramme");
@@ -37,28 +36,61 @@ let renderNames = (students, schools) => {
   students.forEach((name) => {
     let myHobby = name.hobbies;
     let myProgramme = name.programme;
-    let fullName = document.createElement("li");
-    let showInfo = document.createElement("button");
-    showInfo.textContent = "Show";
+    let fullName = document.createElement("button");
     fullName.style.display = "block";
+    fullName.className = "studentBtn";
+    let infoCard = document.createElement("div");
+    infoCard.className = "infoCard";
+    infoCard.innerHTML = `Age: ${name.age}<br>Hobbies: ${name.hobbies}<br>Programme: ${name.programme}`
+    infoCard.style.display = "none";
+    let showInfo = document.createElement("button");
+    showInfo.style.display = "block";
+    showInfo.textContent = "Show schools";
+    showInfo.className = "showInfoBtn";
+    schoolContainer.style.display = "none";
+
+    let infoShowing = true;
+    let schoolShowing = true;
+
 
     //Filter options
     if (frontend.checked && name.programme === "Frontend") {
-      fullName.textContent = `${name.firstName} ${name.lastName}, frontend`;
+      fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
+      nameList.appendChild(infoCard);
     } else if (backend.checked && name.programme === "Backend") {
-      fullName.textContent = `${name.firstName} ${name.lastName}, backend`;
+      fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
     } else if (net.checked && name.programme === ".NET") {
-      fullName.textContent = `${name.firstName} ${name.lastName}, .NET`;
+      fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
     } else if (!frontend.checked && !backend.checked && !net.checked) {
       fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
+      nameList.appendChild(infoCard);
     }
+
+    fullName.addEventListener("click",() => {
+      if(infoShowing === true){
+        infoCard.style.display = "block";
+        infoShowing = false;
+      } else if (infoShowing === false){
+        infoCard.style.display = "none";
+        infoShowing = true;
+      }
+
+    })
 
     //Show which school best suits the student
     showInfo.addEventListener("click", () => {
+      if(schoolShowing === true) {
+        schoolContainer.style.display = "block";
+        schoolShowing = false;
+      } else if(schoolShowing === false){
+        schoolContainer.style.display = "none";
+        schoolShowing = true;
+      }
+
       schoolContainer.innerHTML = "";
       let twoMatch = [];
       let oneMatch = [];
@@ -133,20 +165,22 @@ let renderNames = (students, schools) => {
       schoolNameFunc(noMatchSchool, "noMatchSchool");
 
     });
-    fullName.appendChild(showInfo);
+    infoCard.appendChild(showInfo);
   });
   //End of student loop
 };
 
 //Function to sort by age
-let sortAge = (arr) => {
+let sortAge = (arr, btn) => {
   if (sortState === true) {
     sortState = false;
+    btn.textContent = "▲" 
     arr.sort(function (youngest, oldest) {
       return youngest.age - oldest.age;
     });
   } else if (sortState === false) {
     sortState = true;
+    btn.textContent = "▼";
     arr.sort(function (youngest, oldest) {
       return oldest.age - youngest.age;
     });
@@ -154,8 +188,9 @@ let sortAge = (arr) => {
 };
 
 //Function to sort by first name (alphabetic order)
-let sortFirstName = (arr) => {
+let sortFirstName = (arr, btn) => {
   if (sortState === true) {
+    btn.textContent = "▲";
     sortState = false;
     arr.sort(function (a, b) {
       let nameA = a.firstName.toLowerCase();
@@ -170,6 +205,7 @@ let sortFirstName = (arr) => {
     });
   } else if (sortState === false) {
     sortState = true;
+    btn.textContent = "▼";
     arr.sort(function (a, b) {
       let nameA = a.firstName.toLowerCase();
       let nameB = b.firstName.toLowerCase();
@@ -185,8 +221,9 @@ let sortFirstName = (arr) => {
 };
 
 //Sort by last name (alphabetic order)
-let sortLastName = (arr) => {
+let sortLastName = (arr, btn) => {
   if (sortState === true) {
+    btn.textContent = "▲"
     sortState = false;
     arr.sort(function (a, b) {
       let nameA = a.lastName.toLowerCase();
@@ -201,6 +238,7 @@ let sortLastName = (arr) => {
     });
   } else if (sortState === false) {
     sortState = true;
+    btn.textContent = "▼"
     arr.sort(function (a, b) {
       let nameA = a.lastName.toLowerCase();
       let nameB = b.lastName.toLowerCase();
@@ -269,35 +307,36 @@ async function renderData() {
     let sortBy = document.querySelector("#sortContainer option:checked");
     let searchInput = document.querySelector("#searchInput").value;
     let topBotBtn = document.createElement("button");
-    topBotBtn.textContent = "^";
+    topBotBtn.textContent = "y to old";
+    topBotBtn.className = "topBotBtn";
     sortState = true;
 
     if (sortBy.value === "age" && searchMatch.length > 0) {
       console.log("WORKS!!!!");
-      sortAge(searchMatch);
+      sortAge(searchMatch, topBotBtn);
       renderNames(searchMatch, schoolData);
       topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "age") {
-      sortAge(studentData);
+      sortAge(studentData, topBotBtn);
       renderNames(studentData, schoolData);
       topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "firstName" && searchMatch.length > 0) {
-      sortFirstName(searchMatch);
+      sortFirstName(searchMatch, topBotBtn);
       renderNames(searchMatch, schoolData);
       topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "firstName") {
-      sortFirstName(studentData);
+      sortFirstName(studentData, topBotBtn);
       renderNames(studentData, schoolData);
       topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "lastName" && searchMatch.length > 0) {
-      sortLastName(searchMatch);
+      sortLastName(searchMatch, topBotBtn);
       renderNames(searchMatch, schoolData);
       topBotContainer.append(topBotBtn);
     } else if (sortBy.value === "lastName") {
-      sortLastName(studentData);
+      sortLastName(studentData, topBotBtn);
       renderNames(studentData, schoolData);
       topBotContainer.append(topBotBtn);
-    } else if(sortBy.disabled === true && searchMatch.length > 0) {
+    } else if(sortBy.value === "default" && searchMatch.length > 0) {
       renderNames(searchMatch, schoolData);
     } else {
       renderNames(studentData, schoolData);
@@ -309,60 +348,36 @@ async function renderData() {
 
       if (sortBy.value === "age" && searchMatch.length > 0) {
         console.log("WORKS!!!!");
-        sortAge(searchMatch);
+        sortAge(searchMatch, topBotBtn);
         renderNames(searchMatch, schoolData);
         topBotContainer.append(topBotBtn);
       } else if (sortBy.value === "age") {
-        sortAge(studentData);
+        sortAge(studentData, topBotBtn);
         renderNames(studentData, schoolData);
         topBotContainer.append(topBotBtn);
       } else if (sortBy.value === "firstName" && searchMatch.length > 0) {
-        sortFirstName(searchMatch);
+        sortFirstName(searchMatch, topBotBtn);
         renderNames(searchMatch, schoolData);
         topBotContainer.append(topBotBtn);
       } else if (sortBy.value === "firstName") {
-        sortFirstName(studentData);
+        sortFirstName(studentData, topBotBtn);
         renderNames(studentData, schoolData);
         topBotContainer.append(topBotBtn);
       } else if (sortBy.value === "lastName" && searchMatch.length > 0) {
-        sortLastName(searchMatch);
+        sortLastName(searchMatch, topBotBtn);
         renderNames(searchMatch, schoolData);
         topBotContainer.append(topBotBtn);
       } else if (sortBy.value === "lastName") {
-        sortLastName(studentData);
+        sortLastName(studentData, topBotBtn);
         renderNames(studentData, schoolData);
         topBotContainer.append(topBotBtn);
-      } else if(sortBy.disabled === true && searchMatch.length > 0) {
+      } else if(sortBy.value === "default" && searchMatch.length > 0) {
         renderNames(searchMatch, schoolData);
       } else {
         renderNames(studentData, schoolData);
       }
     });
   });
-
-  // let targetName = (event) => {
-  //     let nameTarget = event.target;
-  //     schoolContainer.innerHTML = "";
-  //     let name = document.createElement("p");
-  //     name.textContent = "My name is " + studentData.firstName;
-  //     schoolContainer.append(name);
-
-  //     compare(studentData, schoolData);
-
-  //     console.log(name);
-  // }
-
-  // nameList.addEventListener("click", (event) => {
-  //     targetName(event);
-  // })
-
-  // nameList.addEventListener("click", (targetName) => {
-  //     let testText = document.createElement("p");
-  //     testText.textContent = "This is the school information";
-  //     schoolContainer.appendChild(testText);
-  //     console.log(targetName.value);
-
-  // })
 }
 
 renderData();

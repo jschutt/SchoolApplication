@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,37 +8,48 @@
     <link rel="stylesheet" href="style.css">
     <title>School applications</title>
 </head>
+
 <body>
     <div class="bgColor">
-    <h1>School applications</h1>
-    <div>
-        <label for="searchInput">Search for a student: </label>
-        <input type="search" name="seachInput" id="searchInput" placeholder="Name, programme, hobby...">
-        <button id="searchBtn">Search</button>
-    </div>
+        <h1>School applications</h1>
+        <div class="searchContainer">
+            <label for="searchInput">Search for a student: </label>
+            <input type="search" name="seachInput" id="searchInput" class="searchInput" placeholder="Name, programme, hobby...">
+            <button id="searchBtn" class="searchBtn">Search</button>
+        </div>
 
-    <div>
-        <label for="frontendProgramme">Frontend</label>
-        <input type="checkbox" name="programme" id="frontendProgramme">
-        <label for="backendProgramme">Backend</label>
-        <input type="checkbox" name="programme" id="backendProgramme">
-        <label for="netProgramme">.NET</label>
-        <input type="checkbox" name="programme" id="netProgramme">
+        <div class="programmeFilterContainer">
+            <label for="frontendProgramme">Frontend</label>
+            <input type="checkbox" name="programme" id="frontendProgramme">
+            <label for="backendProgramme">Backend</label>
+            <input type="checkbox" name="programme" id="backendProgramme">
+            <label for="netProgramme">.NET</label>
+            <input type="checkbox" name="programme" id="netProgramme">
+        </div>
+        <label for="sortContainer">Sort by: </label>
+        <select name="" id="sortContainer">
+            <option value="default" selected>Default</option>
+            <option value="age">Age</option>
+            <option value="firstName">First name</option>
+            <option value="lastName">Last name</option>
+        </select>
+        <div id="filterContainer" class="filterContainer">
+            <button id="filterBtn" class="filterBtn">Filter</button>
+        </div>
+        <div class="listTitles">
+            <h2 class="studentListTitle">List of students</h2>
+            <h2 class="schoolListTitle">Schools for selected student</h2>
+            <p class="infoTag">Green - both programme and activity found | Orange - Only programme found | Red - No matches found</p>
+        </div>
+
+
+        <div class="nameSchoolContainer">
+            <div id="topBotContainer" class="topBotContainer"></div>
+            <ul id="nameList" class="nameList"></ul>
+            <div id="schoolContainer" class="schoolContainer" display hidden></div>
+        </div>
+        <script src="main.js"></script>
     </div>
-    <label for="sortContainer">Sort by: </label>
-    <select name="" id="sortContainer">
-        <option value="default" selected>Default</option>
-        <option value="age">Age</option>
-        <option value="firstName">First name</option>
-        <option value="lastName">Last name</option>
-    </select>
-    <div id="filterContainer">
-    <button id="filterBtn">Filter</button>
-</div>
-<div id="topBotContainer"></div>
-    <ul id="nameList" class="nameList"></ul>
-    <div id="schoolContainer" class="schoolContainer" display hidden></div>
-    <script src="main2.js"></script>
-</div>
 </body>
+
 </html>

@@ -55,14 +55,14 @@ let renderNames = (students, schools) => {
 
     //Filter options
     if (frontend.checked && name.programme === "Frontend") {
-      fullName.textContent = `${name.firstName} ${name.lastName}, frontend`;
+      fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
       nameList.appendChild(infoCard);
     } else if (backend.checked && name.programme === "Backend") {
-      fullName.textContent = `${name.firstName} ${name.lastName}, backend`;
+      fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
     } else if (net.checked && name.programme === ".NET") {
-      fullName.textContent = `${name.firstName} ${name.lastName}, .NET`;
+      fullName.textContent = `${name.firstName} ${name.lastName}`;
       nameList.appendChild(fullName);
     } else if (!frontend.checked && !backend.checked && !net.checked) {
       fullName.textContent = `${name.firstName} ${name.lastName}`;
